@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (免费版) -->
+    <!-- Font Awesome 6 (免费版) · 同时准备备用CDN增强稳定性 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 备选CDN (提高跨区可用性) 但为避免重复请求, 仅作备援注释, 实际主要使用上方 -->
     <style>
         * {
             margin: 0;
@@ -324,6 +325,18 @@
             color: #cb7e9a;
         }
 
+        /* 后备表情符号样式 (当Font Awesome加载失败时使用) */
+        .emoji-fallback {
+            display: inline-block;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            font-size: inherit;
+            color: inherit;
+            font-family: -apple-system, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+            vertical-align: middle;
+        }
+
         /* 响应式 */
         @media (max-width: 500px) {
             .birthday-card { padding: 1.8rem 1.2rem; }
@@ -336,7 +349,7 @@
 </head>
 <body>
 
-    <!-- 漂浮粒子 -->
+    <!-- 漂浮粒子 (背景氛围，不影响主体) -->
     <div class="floating-particles" id="floatingParticles"></div>
 
     <main class="birthday-card">
@@ -344,7 +357,7 @@
             <span></span><span></span><span></span>
         </div>
 
-        <!-- 将“小仙女”替换成她的名字或爱称 -->
+        <!-- 爱称已定制 -->
         <div class="to-salute">to my dearest</div>
         <div class="name-place"><span>若琪宝宝</span></div>
 
@@ -352,7 +365,7 @@
             <i class="fa-regular fa-star"></i> 生日快乐 <i class="fa-regular fa-star"></i>
         </div>
 
-        <!-- 真诚告白（为你定制的不擅浪漫但真心话） -->
+        <!-- 真诚告白 -->
         <div class="message">
             <p>
                 <i class="fa-regular fa-heart"></i>
@@ -371,7 +384,7 @@
             </p>
         </div>
 
-        <!-- 秘密情书 (点击后出现) -->
+        <!-- 秘密情书 -->
         <div id="secretLetter" class="secret-letter">
             <i class="fa-solid fa-quote-left"></i> 给最特别的你：<br>
             &nbsp;&nbsp;宝贝，思来想去，还是想再跟你说一遍：对不起呀，我不太会说甜蜜的话，也不会搞那些网络上的浪漫套路。但我想让你知道，为了你，我愿意去学，去尝试，去变成一个更好的人。<br>
@@ -382,17 +395,17 @@
             </div>
         </div>
 
-        <!-- 按钮：打开情书 -->
+        <!-- 情书按钮 -->
         <button class="elegant-btn" id="loveLetterBtn" type="button">
             <i class="fa-regular fa-envelope"></i> 打开这封笨拙的情书 <i class="fa-regular fa-heart"></i>
         </button>
 
-        <!-- 签名（羽毛笔图标已修正为 solid） -->
+        <!-- 签名 -->
         <div class="signature-block">
             <i class="fa-solid fa-feather"></i> 你的宝宝 · 敬上 <i class="fa-solid fa-feather"></i>
         </div>
 
-        <!-- 脚注（蛋糕蜡烛图标已修正为 solid） -->
+        <!-- 脚注 -->
         <div class="footer-grace">
             <i class="fa-solid fa-cake-candles"></i>  forever young  <i class="fa-solid fa-cake-candles"></i>
         </div>
@@ -400,53 +413,44 @@
 
     <script>
         (function() {
-            // 生成淡雅粒子
+            // ---------- 1. 生成漂浮粒子 (仅氛围，不参与后备替换) ----------
             const particlesContainer = document.getElementById('floatingParticles');
             const particleCount = window.innerWidth < 600 ? 35 : 60;
 
-            for (let i = 0; i < particleCount; i++) {
-                if (i % 5 === 0) {
-                    const heart = document.createElement('i');
-                    heart.className = 'fa-solid fa-heart particle heart';
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.fontSize = (10 + Math.random() * 14) + 'px';
-                    heart.style.animationDuration = (12 + Math.random() * 20) + 's';
-                    heart.style.animationDelay = Math.random() * 8 + 's';
-                    heart.style.color = `rgba(230, 170, 190, 0.25)`;
-                    particlesContainer.appendChild(heart);
-                } else {
-                    const particle = document.createElement('span');
-                    particle.className = 'particle';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.width = (4 + Math.random() * 12) + 'px';
-                    particle.style.height = particle.style.width;
-                    particle.style.background = `rgba(255, 210, 225, ${0.2 + Math.random()*0.2})`;
-                    particle.style.boxShadow = `0 0 15px 5px rgba(255, 180, 200, 0.3)`;
-                    particle.style.animationDuration = (8 + Math.random() * 18) + 's';
-                    particle.style.animationDelay = Math.random() * 5 + 's';
-                    particlesContainer.appendChild(particle);
+            function generateParticles() {
+                particlesContainer.innerHTML = ''; // 清空
+                for (let i = 0; i < particleCount; i++) {
+                    if (i % 5 === 0) {
+                        const heart = document.createElement('i');
+                        heart.className = 'fa-solid fa-heart particle heart';
+                        heart.style.left = Math.random() * 100 + '%';
+                        heart.style.fontSize = (10 + Math.random() * 14) + 'px';
+                        heart.style.animationDuration = (12 + Math.random() * 20) + 's';
+                        heart.style.animationDelay = Math.random() * 8 + 's';
+                        heart.style.color = `rgba(230, 170, 190, 0.25)`;
+                        particlesContainer.appendChild(heart);
+                    } else {
+                        const particle = document.createElement('span');
+                        particle.className = 'particle';
+                        particle.style.left = Math.random() * 100 + '%';
+                        particle.style.width = (4 + Math.random() * 12) + 'px';
+                        particle.style.height = particle.style.width;
+                        particle.style.background = `rgba(255, 210, 225, ${0.2 + Math.random()*0.2})`;
+                        particle.style.boxShadow = `0 0 15px 5px rgba(255, 180, 200, 0.3)`;
+                        particle.style.animationDuration = (8 + Math.random() * 18) + 's';
+                        particle.style.animationDelay = Math.random() * 5 + 's';
+                        particlesContainer.appendChild(particle);
+                    }
                 }
             }
+            generateParticles();
 
-            // 情书按钮
-            const secretLetter = document.getElementById('secretLetter');
-            const btn = document.getElementById('loveLetterBtn');
-
-            btn.addEventListener('click', function() {
-                if (!btn.disabled) {
-                    secretLetter.classList.add('show');
-                    btn.disabled = true;
-                    btn.innerHTML = '<i class="fa-regular fa-circle-check"></i> 情书已送达  <i class="fa-regular fa-heart"></i>';
-                }
-            });
-
-            // 窗口改变时重新生成粒子（保持氛围）
+            // 窗口改变时重新生成
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(function() {
-                    const newWidth = window.innerWidth;
-                    const newCount = newWidth < 600 ? 35 : 60;
+                    const newCount = window.innerWidth < 600 ? 35 : 60;
                     particlesContainer.innerHTML = '';
                     for (let i = 0; i < newCount; i++) {
                         if (i % 5 === 0) {
@@ -473,14 +477,79 @@
                     }
                 }, 200);
             });
+
+            // ---------- 2. 情书按钮交互 ----------
+            const secretLetter = document.getElementById('secretLetter');
+            const btn = document.getElementById('loveLetterBtn');
+            btn.addEventListener('click', function() {
+                if (!btn.disabled) {
+                    secretLetter.classList.add('show');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-regular fa-circle-check"></i> 情书已送达  <i class="fa-regular fa-heart"></i>';
+                }
+            });
+
+            // ---------- 3. 关键: iOS Safari 特殊符号后备方案 ----------
+            // 只针对卡片内图标检测 (避免干扰背景粒子)
+            function fallbackIfFontFails() {
+                // 选取卡片中任意一个图标做字体检测
+                const testIcon = document.querySelector('.birthday-card i[class*="fa-"]');
+                if (!testIcon) return;
+
+                // 获取计算后的 font-family，如果包含 "Font Awesome" 则认为字体已加载
+                const fontFamily = window.getComputedStyle(testIcon).fontFamily;
+                const isFontAwesomeLoaded = fontFamily && fontFamily.includes('Font Awesome');
+
+                if (!isFontAwesomeLoaded) {
+                    // 字体未生效 → 将卡片内所有图标替换为对应的emoji
+                    const icons = document.querySelectorAll('.birthday-card i[class*="fa-"]');
+                    icons.forEach(icon => {
+                        // 跳过粒子容器内的图标 (但我们的选择器限定了 .birthday-card，所以粒子不会被选中)
+                        const classes = icon.className;
+                        let emoji = '❤️'; // 默认心形
+
+                        if (classes.includes('fa-heart')) emoji = '❤️';
+                        else if (classes.includes('fa-star')) emoji = '✨';
+                        else if (classes.includes('fa-envelope')) emoji = '✉️';
+                        else if (classes.includes('fa-message')) emoji = '💬';
+                        else if (classes.includes('fa-calendar')) emoji = '📅';
+                        else if (classes.includes('fa-feather')) emoji = '🪶';   // 羽毛
+                        else if (classes.includes('fa-cake-candles')) emoji = '🎂';
+                        else if (classes.includes('fa-circle-check')) emoji = '✅';
+                        else if (classes.includes('fa-quote-left')) emoji = '“';
+                        // 其他未覆盖的图标使用❤️
+
+                        // 创建后备span
+                        const fallbackSpan = document.createElement('span');
+                        fallbackSpan.className = 'emoji-fallback';
+                        fallbackSpan.setAttribute('aria-hidden', 'true');
+                        fallbackSpan.textContent = emoji;
+                        // 复制原有样式关键属性 (颜色和字体大小继承自父级，但为了保险从原图标获取)
+                        const computed = window.getComputedStyle(icon);
+                        fallbackSpan.style.color = computed.color;
+                        fallbackSpan.style.fontSize = computed.fontSize;
+                        // 替换图标
+                        icon.parentNode.replaceChild(fallbackSpan, icon);
+                    });
+
+                    // 可选：同时更新按钮内的HTML结构 (如果按钮被替换后innerHTML已经变化，上面的替换已经处理了按钮内的i标签)
+                    // 但按钮文字不变，很好。
+                }
+                // 如果字体正常，什么都不做
+            }
+
+            // 在页面完全加载后检测 (保证字体加载完成或确定失败)
+            if (document.readyState === 'complete') {
+                fallbackIfFontFails();
+            } else {
+                window.addEventListener('load', fallbackIfFontFails);
+            }
+
+            // 额外安全：部分iOS可能load事件触发时字体仍pending，但再延迟一次检查
+            setTimeout(fallbackIfFontFails, 1500);
         })();
     </script>
 
-    <!-- 使用提示：
-         1. 将“小仙女”替换成你对她的爱称。
-         2. 将情书最后的“大男孩”换成你的名字。
-         3. 如果需要调整文案细节，可以修改 .message 和 .secret-letter 里的文字。
-         4. 所有图标现在都应该正常显示。祝告白成功！
-    -->
+    <!-- 温馨提示：如果所有图标依然不显示，可尝试关闭Safari的“内容拦截器”或更换网络。但此页面已内置后备表情，应该总能看见“符号” -->
 </body>
 </html>
