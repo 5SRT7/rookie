@@ -1,15 +1,3 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "rookie.html",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/rookie.html"
-        }
-    ]
+  "rewrites": [{ "source": "/", "destination": "/rookie.html" }]
 }
