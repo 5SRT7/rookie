@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>生日快乐 · 给最温柔的你</title>
+    <!-- 精致字体组合：优雅衬线体+现代无衬线 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (免费版) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 30% 30%, #f8e1e9, #e9d4eb 60%, #cdd9f0);
+            background-attachment: fixed;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            position: relative;
+            color: #3e2c3b;
+        }
+
+        /* 极光微光粒子 */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 220, 230, 0.25);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            box-shadow: 0 0 12px 4px rgba(255, 190, 200, 0.5);
+            animation: floatParticle linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0.1; }
+            30% { opacity: 0.5; }
+            70% { opacity: 0.3; }
+            100% { transform: translateY(-110vh) translateX(20px) scale(1.6); opacity: 0; }
+        }
+
+        .particle.heart {
+            background: transparent;
+            color: rgba(240, 170, 190, 0.3);
+            font-size: 14px;
+            box-shadow: none;
+            width: auto;
+            height: auto;
+            background: none;
+            filter: none;
+            animation: floatHeart 14s linear infinite;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            80% { opacity: 0.25; }
+            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+        }
+
+        /* 主卡片 */
+        .birthday-card {
+            position: relative;
+            z-index: 20;
+            max-width: 640px;
+            width: 100%;
+            background: rgba(255, 250, 250, 0.28);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border-radius: 2.8rem 1.2rem 2.8rem 1.2rem;
+            box-shadow: 0 35px 60px -15px rgba(140, 90, 120, 0.35),
+                        0 0 0 0.5px rgba(255, 255, 255, 0.7) inset,
+                        0 0 0 1px rgba(255, 200, 220, 0.4) inset;
+            padding: 2.5rem 2.2rem 2.8rem 2.2rem;
+            border: 1px solid rgba(255, 245, 250, 0.4);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        /* 装饰细线 */
+        .card-ornament {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            opacity: 0.6;
+        }
+        .card-ornament span {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b48d9b, #e1b6c7, #b48d9b, transparent);
+        }
+
+        /* 副标题 */
+        .to-salute {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #745e6b;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 5px rgba(255, 235, 240, 0.8);
+        }
+
+        .name-place {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.6rem;
+            font-weight: 600;
+            line-height: 1.1;
+            color: #582f44;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 3px 10px rgba(255, 220, 240, 0.7);
+            border-bottom: 1px dashed #dbb6c2;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        .name-place span {
+            font-style: italic;
+            background: linear-gradient(135deg, #a6546f, #c45d7c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 生日主标 */
+        .birthday-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            color: #a65273;
+            margin-top: 0.2rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .birthday-title i {
+            font-size: 2.2rem;
+            color: #d68ea5;
+            opacity: 0.8;
+        }
+
+        /* 告白区域 */
+        .message {
+            background: rgba(255, 240, 245, 0.2);
+            border-radius: 3rem 1.5rem 3rem 1.5rem;
+            padding: 2rem 1.8rem;
+            margin: 1.8rem 0 2rem 0;
+            border: 1px solid rgba(255, 210, 225, 0.5);
+            box-shadow: 0 15px 25px -20px #b28b9d;
+            text-align: left;
+            font-weight: 300;
+            color: #35242e;
+        }
+
+        .message p {
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message i {
+            color: #b9637f;
+            font-size: 1.3rem;
+            margin-top: 0.2rem;
+            min-width: 1.8rem;
+            text-align: center;
+        }
+
+        .message .quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            border-left: 2px solid #dd93aa;
+            padding-left: 1rem;
+            margin: 1.2rem 0 1rem 1.5rem;
+            color: #533f4a;
+        }
+
+        .signature-block {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: #774d63;
+            border-top: 1px dashed #cfa2b5;
+            padding-top: 1rem;
+        }
+
+        .signature-block i {
+            margin: 0 0.3rem;
+            color: #b3627e;
+        }
+
+        /* 秘密情书 */
+        .secret-letter {
+            background: rgba(255, 235, 240, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 2rem 0.8rem 2rem 0.8rem;
+            padding: 1.8rem 1.8rem;
+            margin: 2rem 0 1.5rem 0;
+            border-left: 4px solid #eea7bb;
+            border-right: 4px solid #eea7bb;
+            box-shadow: 0 12px 30px -10px #a76481;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            display: none;
+            animation: softAppear 0.5s ease;
+            text-align: left;
+            color: #34212b;
+        }
+
+        .secret-letter.show {
+            display: block;
+        }
+
+        @keyframes softAppear {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .secret-letter i.fa-quote-left {
+            color: #bd718b;
+            margin-right: 6px;
+        }
+
+        .secret-letter .signature-mini {
+            margin-top: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            text-align: right;
+            color: #9c5f78;
+        }
+
+        /* 优雅按钮 */
+        .elegant-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 200, 220, 0.8);
+            color: #572f41;
+            font-size: 1.3rem;
+            font-weight: 400;
+            padding: 0.9rem 2.2rem;
+            border-radius: 3rem 1rem 3rem 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -8px rgba(150, 90, 110, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .elegant-btn:hover:not(:disabled) {
+            background: rgba(255, 235, 240, 0.6);
+            border-color: #f09bb6;
+            transform: translateY(-3px);
+            box-shadow: 0 18px 28px -10px #b4738f, 0 0 0 1px #fff0f5 inset;
+        }
+
+        .elegant-btn:disabled {
+            opacity: 0.9;
+            background: rgba(255, 210, 225, 0.5);
+            border-color: #e2b2c2;
+            color: #7f5570;
+            transform: scale(0.98);
+            box-shadow: 0 8px 12px -6px #c88ca5;
+            cursor: default;
+        }
+
+        /* 脚注 */
+        .footer-grace {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #6a4e5d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 220, 240, 0.5);
+        }
+
+        .footer-grace i {
+            color: #cb7e9a;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            .birthday-card { padding: 1.8rem 1.2rem; }
+            .name-place { font-size: 2.8rem; }
+            .birthday-title { font-size: 2.2rem; }
+            .message p { font-size: 1rem; }
+            .elegant-btn { font-size: 1.1rem; padding: 0.7rem 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 漂浮粒子 -->
+    <div class="floating-particles" id="floatingParticles"></div>
+
+    <main class="birthday-card">
+        <div class="card-ornament">
+            <span></span><span></span><span></span>
+        </div>
+
+        <!-- 将“小仙女”替换成她的名字或爱称 -->
+        <div class="to-salute">to my dearest</div>
+        <div class="name-place"><span>若琪宝宝</span></div>
+
+        <div class="birthday-title">
+            <i class="fa-regular fa-star"></i> 生日快乐 <i class="fa-regular fa-star"></i>
+        </div>
+
+        <!-- 真诚告白（为你定制的不擅浪漫但真心话） -->
+        <div class="message">
+            <p>
+                <i class="fa-regular fa-heart"></i>
+                <span>其实我不是一个很懂浪漫的人，不会写诗，也不会制造惊喜。但因为你，我开始想学着把所有的温柔都收集起来，然后一点一点给你。</span>
+            </p>
+            <p>
+                <i class="fa-regular fa-message"></i>
+                <span>原谅我嘴笨，说不出惊天动地的情话。我只知道，看到你笑，我就很开心；你皱眉头，我就想抱抱你。这份喜欢，笨拙却认真。</span>
+            </p>
+            <div class="quote">
+                “世界上有很多种浪漫，而我的浪漫，就是所有平凡的瞬间都有你在。”
+            </div>
+            <p>
+                <i class="fa-regular fa-calendar"></i>
+                <span>今天是你生日，我不求给你全世界最华丽的庆祝，只想让你知道——往后的每一个生日，我都想陪你一起过。也许我不够浪漫，但我会用很久很久的时间，证明我的爱很靠谱。</span>
+            </p>
+        </div>
+
+        <!-- 秘密情书 (点击后出现) -->
+        <div id="secretLetter" class="secret-letter">
+            <i class="fa-solid fa-quote-left"></i> 给最特别的你：<br>
+            &nbsp;&nbsp;宝贝，思来想去，还是想再跟你说一遍：对不起呀，我不太会说甜蜜的话，也不会搞那些网络上的浪漫套路。但我想让你知道，为了你，我愿意去学，去尝试，去变成一个更好的人。<br>
+            &nbsp;&nbsp;你是我第一个想用尽全力去爱的人。你的名字，早就刻在我未来的每一个计划里。我很感激你的陪伴，陪我看剧、陪我玩游戏、陪我聊天，做什么事情你都愿意陪我，我发现我的生活早已不能没有你。今天你的生日，我只想许一个愿望：希望你能一直做那个开心、任性、被宠爱的小姑娘，而我会一直站在你身边，陪你奇奇怪怪，陪你可可爱爱。<br>
+            &nbsp;&nbsp;生日快乐，我的宝宝。原谅我的笨拙，但请相信我的真心。💖
+            <div class="signature-mini">
+                —— 永远喜欢你的 · 小大宝宝
+            </div>
+        </div>
+
+        <!-- 按钮：打开情书 -->
+        <button class="elegant-btn" id="loveLetterBtn" type="button">
+            <i class="fa-regular fa-envelope"></i> 打开这封笨拙的情书 <i class="fa-regular fa-heart"></i>
+        </button>
+
+        <!-- 签名（羽毛笔图标已修正为 solid） -->
+        <div class="signature-block">
+            <i class="fa-solid fa-feather"></i> 你的宝宝 · 敬上 <i class="fa-solid fa-feather"></i>
+        </div>
+
+        <!-- 脚注（蛋糕蜡烛图标已修正为 solid） -->
+        <div class="footer-grace">
+            <i class="fa-solid fa-cake-candles"></i>  forever young  <i class="fa-solid fa-cake-candles"></i>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            // 生成淡雅粒子
+            const particlesContainer = document.getElementById('floatingParticles');
+            const particleCount = window.innerWidth < 600 ? 35 : 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                if (i % 5 === 0) {
+                    const heart = document.createElement('i');
+                    heart.className = 'fa-solid fa-heart particle heart';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (10 + Math.random() * 14) + 'px';
+                    heart.style.animationDuration = (12 + Math.random() * 20) + 's';
+                    heart.style.animationDelay = Math.random() * 8 + 's';
+                    heart.style.color = `rgba(230, 170, 190, 0.25)`;
+                    particlesContainer.appendChild(heart);
+                } else {
+                    const particle = document.createElement('span');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.width = (4 + Math.random() * 12) + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.background = `rgba(255, 210, 225, ${0.2 + Math.random()*0.2})`;
+                    particle.style.boxShadow = `0 0 15px 5px rgba(255, 180, 200, 0.3)`;
+                    particle.style.animationDuration = (8 + Math.random() * 18) + 's';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // 情书按钮
+            const secretLetter = document.getElementById('secretLetter');
+            const btn = document.getElementById('loveLetterBtn');
+
+            btn.addEventListener('click', function() {
+                if (!btn.disabled) {
+                    secretLetter.classList.add('show');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-regular fa-circle-check"></i> 情书已送达  <i class="fa-regular fa-heart"></i>';
+                }
+            });
+
+            // 窗口改变时重新生成粒子（保持氛围）
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    const newWidth = window.innerWidth;
+                    const newCount = newWidth < 600 ? 35 : 60;
+                    particlesContainer.innerHTML = '';
+                    for (let i = 0; i < newCount; i++) {
+                        if (i % 5 === 0) {
+                            const heart = document.createElement('i');
+                            heart.className = 'fa-solid fa-heart particle heart';
+                            heart.style.left = Math.random() * 100 + '%';
+                            heart.style.fontSize = (10 + Math.random() * 14) + 'px';
+                            heart.style.animationDuration = (12 + Math.random() * 20) + 's';
+                            heart.style.animationDelay = Math.random() * 8 + 's';
+                            heart.style.color = `rgba(230, 170, 190, 0.25)`;
+                            particlesContainer.appendChild(heart);
+                        } else {
+                            const particle = document.createElement('span');
+                            particle.className = 'particle';
+                            particle.style.left = Math.random() * 100 + '%';
+                            particle.style.width = (4 + Math.random() * 12) + 'px';
+                            particle.style.height = particle.style.width;
+                            particle.style.background = `rgba(255, 210, 225, ${0.2 + Math.random()*0.2})`;
+                            particle.style.boxShadow = `0 0 15px 5px rgba(255, 180, 200, 0.3)`;
+                            particle.style.animationDuration = (8 + Math.random() * 18) + 's';
+                            particle.style.animationDelay = Math.random() * 5 + 's';
+                            particlesContainer.appendChild(particle);
+                        }
+                    }
+                }, 200);
+            });
+        })();
+    </script>
+
+    <!-- 使用提示：
+         1. 将“小仙女”替换成你对她的爱称。
+         2. 将情书最后的“大男孩”换成你的名字。
+         3. 如果需要调整文案细节，可以修改 .message 和 .secret-letter 里的文字。
+         4. 所有图标现在都应该正常显示。祝告白成功！
+    -->
+</body>
+</html>
